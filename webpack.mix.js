@@ -8,7 +8,7 @@ dotenvExpand(require('dotenv').config({
 }));
 
 //require('laravel-mix-merge-manifest');
-//mix.setPublicPath('../../public').mergeManifest();
+//mix.setPublicPath('../../../public_html').mergeManifest();
 
 var public_path = 'Resources/dist';
 

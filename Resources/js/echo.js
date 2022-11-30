@@ -20,8 +20,8 @@ window.Echo = new Echo({
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
-    wsHost: 'staging.mediamonitor.it',
-    wsPath: '/socket',
+    wsHost: 'socket.mediamonitor.it',
+    //wsPath: '/socket',
     wsPort: process.env.MIX_PUSHER_PORT,
     wssPort: process.env.MIX_PUSHER_PORT,
     forceTLS: false,
