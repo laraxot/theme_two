@@ -109,7 +109,7 @@ class ThemeComposer {
 
         // Get current page path
         $deepPath = '';
-        if (! empty($path)) {
+        if (\is_string($path)) {
             $deepPath = '.'.str_replace('/', '.', $path);
         }
 
