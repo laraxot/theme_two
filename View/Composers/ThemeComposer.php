@@ -92,8 +92,13 @@ class ThemeComposer {
         }
         // Map the config path
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (array_key_exists($scope, $general)) {
             $scope = 'general.' . $scope;
+=======
+        if (array_key_exists($scope, config($demo.'.general', []))) {
+            $scope = 'general.'.$scope;
+>>>>>>> 92e393df4b24d453be19ab62e4df3181edaaa2f2
 =======
         if (array_key_exists($scope, config($demo.'.general', []))) {
             $scope = 'general.'.$scope;
@@ -133,7 +138,11 @@ class ThemeComposer {
      *
      */
 <<<<<<< HEAD
+<<<<<<< HEAD
     public static function getDemo():?string  {
+=======
+    public static function getDemo() {
+>>>>>>> 92e393df4b24d453be19ab62e4df3181edaaa2f2
 =======
     public static function getDemo() {
 >>>>>>> 92e393df4b24d453be19ab62e4df3181edaaa2f2
