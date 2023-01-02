@@ -7,16 +7,13 @@ namespace Themes\Two\View\Composers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
-class ThemeComposer
-{
+class ThemeComposer {
     /**
      * Demo name.
      */
     public static string $demo = 'demo-111';
     /**
      * Theme execution mode(dev, preview, export, release).
-     *
-     * @var string
      */
     public static string $viewMode = 'dev';
 
@@ -25,20 +22,16 @@ class ThemeComposer
      *
      * @return void
      */
-    public function compose(View $view)
-    {
+    public function compose(View $view) {
         $view->with('_theme', $this);
     }
 
     /**
      * Get the route or URL.
      *
-     * @param string $demo
-     *
      * @return string
      */
-    public static function getPageUrl(string $path, string $demo = '', string $mode = null)
-    {
+    public static function getPageUrl(string $path, string $demo = '', string $mode = null) {
         $params = [];
         if (isset($_REQUEST['rtl']) && $_REQUEST['rtl']) {
             $params['rtl'] = 1;
@@ -55,23 +48,23 @@ class ThemeComposer
             $params['mode'] = $_REQUEST['mode'];
         }
 
-        if (!empty($demo)) {
+        if (! empty($demo)) {
             $params['demo'] = $demo;
         }
 
         $a = '';
         if (count($params) && '#' !== $path) {
-            $a = '?' . http_build_query($params);
+            $a = '?'.http_build_query($params);
         }
 
         // check if the route exist in the laravel
         $name = str_replace('/', '.', $path);
         if (Route::has($name)) {
-            return route($name) . $a;
+            return route($name).$a;
         }
 
         // otherwise return as url
-        return url($path) . $a;
+        return url($path).$a;
     }
 
     /**
@@ -79,26 +72,24 @@ class ThemeComposer
      *
      * @return string
      */
-    public static function getMediaUrlPath(string $file = '')
-    {
-        return '/media/' . $file;
+    public static function getMediaUrlPath(string $file = '') {
+        return '/media/'.$file;
     }
 
     /**
      * Get the option's value from config.
      *
-     * @param string|bool $path
-     * @param Callable|null  $default
+     * @param string|bool   $path
+     * @param callable|null $default
      *
      * @return mixed|string
      */
-    public static function getOption(string $scope, $path = false,  $default = null)
-    {
+    public static function getOption(string $scope, $path = false, $default = null) {
         $demo = self::getDemo() ?? 'demo1';
 
         // Map the config path
-        if (array_key_exists($scope, config($demo . '.general', []))) {
-            $scope = 'general.' . $scope;
+        if (array_key_exists($scope, config($demo.'.general', []))) {
+            $scope = 'general.'.$scope;
         }
 
         if (in_array($scope, ['page', 'pages'])) {
@@ -109,20 +100,20 @@ class ThemeComposer
                     $segments[$key] = '*';
                 }
             }
-            $scope .= '.' . implode('.', $segments);
+            $scope .= '.'.implode('.', $segments);
         }
 
         // Get current page path
         $deepPath = '';
         if (\is_string($path)) {
-            $deepPath = '.' . str_replace('/', '.', $path);
+            $deepPath = '.'.str_replace('/', '.', $path);
         }
 
         // Demo config
-        $demoConfig = config($demo . '.' . $scope . $deepPath, $default);
+        $demoConfig = config($demo.'.'.$scope.$deepPath, $default);
 
         // check if it is a callback
-        if (is_callable($demoConfig) && !is_string($demoConfig)) {
+        if (is_callable($demoConfig) && ! is_string($demoConfig)) {
             $demoConfig = $demoConfig();
         }
 
@@ -134,8 +125,7 @@ class ThemeComposer
      *
      * @return string
      */
-    public static function getDemo()
-    {
+    public static function getDemo() {
         if (class_exists('request')) {
             return request()->input('demo', self::$demo);
         }
@@ -143,20 +133,18 @@ class ThemeComposer
         return self::$demo;
     }
 
-    public static function printHtmlAttributes($scope)
-    {
+    public static function printHtmlAttributes($scope) {
         $Attributes = [];
 
-        if (isset(self::$htmlAttributes[$scope]) && !empty(self::$htmlAttributes[$scope])) {
+        if (isset(self::$htmlAttributes[$scope]) && ! empty(self::$htmlAttributes[$scope])) {
             echo Util::getHtmlAttributes(self::$htmlAttributes[$scope]);
         }
 
         echo '';
     }
 
-    public static function printHtmlClasses($scope, $full = true)
-    {
-        if (isset(self::$htmlClasses[$scope]) && !empty(self::$htmlClasses[$scope])) {
+    public static function printHtmlClasses($scope, $full = true) {
+        if (isset(self::$htmlClasses[$scope]) && ! empty(self::$htmlClasses[$scope])) {
             $classes = implode(' ', self::$htmlClasses[$scope]);
 
             if ($full) {
@@ -169,20 +157,18 @@ class ThemeComposer
         }
     }
 
-    public static function printCssVariables($scope)
-    {
+    public static function printCssVariables($scope) {
         $Attributes = [];
 
-        if (isset(self::$cssVariables[$scope]) && !empty(self::$cssVariables[$scope])) {
+        if (isset(self::$cssVariables[$scope]) && ! empty(self::$cssVariables[$scope])) {
             echo Util::getCssVariables(self::$cssVariables[$scope]);
         }
     }
 
-    public static function appendVersionToUrl($path)
-    {
+    public static function appendVersionToUrl($path) {
         // only at preview version
         if ('preview' == self::$viewMode) {
-            $path .= '?v=' . self::getOption('theme/version');
+            $path .= '?v='.self::getOption('theme/version');
         }
 
         return $path;
@@ -193,12 +179,11 @@ class ThemeComposer
      *
      * @param string $value
      */
-    public static function includeFonts($value = '')
-    {
+    public static function includeFonts($value = '') {
         if (self::hasOption('assets', 'fonts/google')) {
             $fonts = self::getOption('assets', 'fonts/google');
 
-            echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=' . implode('|', $fonts) . '"/>';
+            echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family='.implode('|', $fonts).'"/>';
         }
     }
 
@@ -209,23 +194,22 @@ class ThemeComposer
      *
      * @return bool
      */
-    public static function hasOption($scope, $path = false)
-    {
+    public static function hasOption($scope, $path = false) {
         return (bool) self::getOption($scope, $path);
     }
 
     /**
-     * Summary of hasVendorFiles
+     * Summary of hasVendorFiles.
+     *
      * @param mixed $type
+     *
      * @return bool
      */
-    public static function hasVendorFiles($type)
-    {
+    public static function hasVendorFiles($type) {
         return (bool) self::getVendorFiles($type);
     }
 
-    public static function getVendorFiles($type)
-    {
+    public static function getVendorFiles($type) {
         $files = [];
         $vendors = self::getOption('vendors');
 
@@ -256,10 +240,11 @@ class ThemeComposer
     }
 
     /**
-     * Summary of getViewMode
+     * Summary of getViewMode.
+     *
      * @return string
-     */    public static function getViewMode()
-    {
+     */
+    public static function getViewMode() {
         return self::$viewMode;
     }
 }
