@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Two\View\Composers;
 
-use Exception;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
@@ -129,10 +128,11 @@ class ThemeComposer {
      */
     public static function getDemo(): ?string {
         if (class_exists('request')) {
-            $res= request()->input('demo', self::$demo);
-            if(!is_string($res)){
-                throw new Exception('['.__LINE__.']['.__FILE__.']');
+            $res = request()->input('demo', self::$demo);
+            if (! is_string($res)) {
+                throw new \Exception('['.__LINE__.']['.__FILE__.']');
             }
+
             return $res;
         }
 
