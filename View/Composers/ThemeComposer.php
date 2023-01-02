@@ -95,9 +95,12 @@ class ThemeComposer
     public static function getOption(string $scope, $path = false,  $default = null)
     {
         $demo = self::getDemo() ?? 'demo1';
-
+        $general = config($demo . '.general', []);
+        if(!is_array($general)){
+            $general = [];
+        }
         // Map the config path
-        if (array_key_exists($scope, config($demo . '.general', []))) {
+        if (array_key_exists($scope, $general)) {
             $scope = 'general.' . $scope;
         }
 
@@ -132,10 +135,8 @@ class ThemeComposer
     /**
      * Get current demo.
      *
-     * @return string
      */
-    public static function getDemo()
-    {
+    public static function getDemo():?string  {
         if (class_exists('request')) {
             return request()->input('demo', self::$demo);
         }
