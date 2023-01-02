@@ -86,14 +86,13 @@ class ThemeComposer {
      */
     public static function getOption(string $scope, $path = false, $default = null) {
         $demo = self::getDemo() ?? 'demo1';
-        $general = config($demo . '.general', []);
-        if(!is_array($general)){
+        $general = config($demo.'.general', []);
+        if (! is_array($general)) {
             $general = [];
         }
         // Map the config path
         if (array_key_exists($scope, $general)) {
-            $scope = 'general.' . $scope;
-
+            $scope = 'general.'.$scope;
         }
 
         if (in_array($scope, ['page', 'pages'])) {
@@ -126,9 +125,8 @@ class ThemeComposer {
 
     /**
      * Get current demo.
-     *
      */
-    public static function getDemo():?string  {
+    public static function getDemo(): ?string {
         if (class_exists('request')) {
             return request()->input('demo', self::$demo);
         }
