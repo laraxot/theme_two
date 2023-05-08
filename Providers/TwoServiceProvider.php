@@ -7,7 +7,8 @@ namespace Themes\Two\Providers;
 use Illuminate\Support\Facades\Blade;
 use Modules\Xot\Providers\XotBaseThemeServiceProvider;
 
-class TwoServiceProvider extends XotBaseThemeServiceProvider {
+class TwoServiceProvider extends XotBaseThemeServiceProvider
+{
     public string $dir = __DIR__;
     public string $name = 'One';
     public string $ns = 'pub_theme';
